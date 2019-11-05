@@ -1,0 +1,27 @@
+module alu_2_pass(rd, rs, rt, opcode_old, opcode_new, pass);
+
+input [4:0] rd, rs, rt, opcode_old, opcode_new;
+output pass;
+wire alu_old_0_no, alu_old_1_no, alu_new_0_no, alu_new_1_no, alu_yes_new, alu_yes_old, op_yes, rs_rd_no, rt_rd_no, reg_yes; 
+
+alu (.data_operandA(opcode_old), .data_operandB(5'b00000), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(alu_old_0_no), .isLessThan(), .overflow());
+			
+alu (.data_operandA(opcode_old), .data_operandB(5'b00101), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(alu_old_1_no), .isLessThan(), .overflow());
+			
+alu (.data_operandA(opcode_new), .data_operandB(5'b00000), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(alu_new_0_no), .isLessThan(), .overflow());
+			
+alu (.data_operandA(opcode_new), .data_operandB(5'b00101), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(alu_new_1_no), .isLessThan(), .overflow());
+
+alu (.data_operandA(rd), .data_operandB(rs), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(rs_rd_no), .isLessThan(), .overflow());
+
+alu (.data_operandA(rd), .data_operandB(rt), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(rt_rd_no), .isLessThan(), .overflow());
+
+or (alu_yes_old, ~alu_old_0_no, ~alu_old_1_no);
+or (alu_yes_new, ~alu_new_0_no, ~alu_new_1_no);
+
+and (op_yes, alu_yes_old, alu_yes_new);
+
+or (reg_yes, ~rs_rd_no, ~rt_rd_no);
+and (pass,  reg_yes, op_yes);
+
+endmodule

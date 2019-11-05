@@ -1,0 +1,26 @@
+module blt_bne_pass(b_now, opcode_old, rd_now, rs_now, pass, prob_rs, prob_rd);
+
+input [4:0] opcode_old, ret_adr, rd_now, rs_now;
+input b_now;
+output pass, prob_rd, prob_rs;
+
+not_equal (b_now, 1'b0 , b_true);
+
+not_equal (rd_now, ret_adr , rd_no);
+not_equal (rs_now, ret_adr , rs_no);
+
+not_equal (opcode_old, 5'b00000 , alu_no);
+not_equal (opcode_old, 5'b00101 , addi_no);
+
+
+or (opcode_case, ~alu_no, ~addi_no);
+or (gen_pass, ~rd_no, ~rs_no);
+and (pass, gen_pass, opcode_case);
+
+assign prob_rs = ~rs_no;
+assign prob_rd = ~rd_no;
+
+and (pass, opcode_case, ~ret_adr, bex_true);
+
+endmodule
+

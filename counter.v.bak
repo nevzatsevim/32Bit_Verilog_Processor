@@ -1,0 +1,45 @@
+module counter(clock, reset, out);
+input clock, reset;
+   output [11:0] out;
+   wire [11:0] next;
+wire w1,w2,w3,w4,w5,w6, w7, w8, w9, w10, w11, w12;
+wire nr;
+wire stop;
+
+add_1bit add_1(out[0], 1'b1, 1'b0, next[0],w1);
+my_dff df0(.d(next[0]), .clk(clock), .clr(reset), .en(1'b1), .q(out[0]));
+
+add_1bit add_2(out[1], 1'b0, w1, next[1], w2);
+my_dff df1(.d(next[1]), .clk(clock), .clr(reset), .en(1'b1), .q(out[1]));
+
+add_1bit add_3(out[2], 1'b0, w2, next[2], w3);
+my_dff df2(.d(next[2]), .clk(clock), .clr(reset), .en(1'b1), .q(out[2]));
+
+add_1bit add_4(out[3], 1'b0, w3, next[3], w4);
+my_dff df3(.d(next[3]), .clk(clock), .clr(reset), .en(1'b1), .q(out[3]));
+
+add_1bit add_5(out[4], 1'b0, w4, next[4], w5);
+my_dff df4(.d(next[4]), .clk(clock), .clr(reset), .en(1'b1), .q(out[4]));
+
+add_1bit add_6(out[5], 1'b0, w5, next[5], w6);
+my_dff df5(.d(next[5]), .clk(clock), .clr(reset), .en(1'b1), .q(out[5]));
+
+add_1bit add_2(out[6], 1'b0, w1, next[6], w7);
+my_dff df1(.d(next[6]), .clk(clock), .clr(reset), .en(1'b1), .q(out[6]));
+
+add_1bit add_3(out[7], 1'b0, w2, next[7], w8);
+my_dff df2(.d(next[7]), .clk(clock), .clr(reset), .en(1'b1), .q(out[7]));
+
+add_1bit add_4(out[8], 1'b0, w3, next[8], w9);
+my_dff df3(.d(next[8]), .clk(clock), .clr(reset), .en(1'b1), .q(out[8]));
+
+add_1bit add_5(out[9], 1'b0, w4, next[4], w10);
+my_dff df4(.d(next[9]), .clk(clock), .clr(reset), .en(1'b1), .q(out[9]));
+
+add_1bit add_6(out[10], 1'b0, w5, next[5], w11);
+my_dff df5(.d(next[10]), .clk(clock), .clr(reset), .en(1'b1), .q(out[10]));
+
+add_1bit add_5(out[11], 1'b0, w4, next[4], w12);
+my_dff df4(.d(next[11]), .clk(clock), .clr(reset), .en(1'b1), .q(out[11]));
+
+endmodule

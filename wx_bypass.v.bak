@@ -1,0 +1,22 @@
+module wx_bypass(rd, rs, opcode_old, opcode_new, pass);
+
+
+input [4:0] rd, rs, opcode_old, opcode_new;
+output pass;
+wire lw_no, alu0_no, alu1_no, alu_yes, op_yes, rs_rd_no; 
+
+
+alu (.data_operandA(opcode_new), .data_operandB(5'b01000), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(lw_no), .isLessThan(), .overflow());
+			
+alu (.data_operandA(opcode_old), .data_operandB(5'b00000), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(alu0_no), .isLessThan(), .overflow());
+			
+alu (.data_operandA(opcode_old), .data_operandB(5'b00101), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(alu1_no), .isLessThan(), .overflow());
+
+alu (.data_operandA(rd), .data_operandB(rs), .ctrl_ALUopcode(), .ctrl_shiftamt(), .data_result(), .isNotEqual(rs_rd_no), .isLessThan(), .overflow());
+
+or (alu_yes, ~alu0_no, ~alu1_no);
+and (op_yes, alu_yes, ~lw_no);
+
+and (pass,  ~rs_rd_no, op_yes);
+
+endmodule
